@@ -1,24 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title></title>
-    <link href="../node_modules/qunitjs/qunit/qunit.css" rel="stylesheet">
-    <script src="../node_modules/qunitjs/qunit/qunit.js"></script>
-    <script src="utils.js"></script>
     <script>
-        (function() {
-            var contents = window.loadFileSync('../build/js.cookie.min.js');
+      window.__ok = false
+      ;(function () {
+        function loadFileSync (path) {
+          var xhr = new window.XMLHttpRequest()
+          xhr.open('GET', path, false)
+          xhr.send(null)
+          return xhr.status === 200 ? xhr.responseText : null
+        }
 
-            if (contents !== null) {
-                var script = document.createElement('script');
-                script.innerHTML = '(function (){ return {}; })() ' + contents;
-                document.getElementsByTagName('head')[0].appendChild(script);
-            }
-        })();
+        var contents = loadFileSync('../dist/js.cookie.js')
+        if (contents !== null) {
+          var script = document.createElement('script')
+          script.innerHTML =
+            '(function (){ return {}; })() ' + contents + ' window.__ok = true'
+          document.getElementsByTagName('head')[0].appendChild(script)
+        }
+      })()
     </script>
-</head>
-<body>
-
-</body>
+  </head>
+  <body></body>
 </html>
